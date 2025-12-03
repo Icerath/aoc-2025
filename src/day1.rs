@@ -1,6 +1,6 @@
-pub const EXAMPLE: &str = "L68\nL30\nR48\nL5\nR60\nL55\nL1\nL99\nR14\nL82";
+const EXAMPLE: &str = "L68\nL30\nR48\nL5\nR60\nL55\nL1\nL99\nR14\nL82";
 
-pub fn part1(input: &str) -> u32 {
+fn part1(input: &str) -> u32 {
     let mut current = 50;
     let mut sum = 0;
     for line in input.lines() {
@@ -15,7 +15,7 @@ pub fn part1(input: &str) -> u32 {
     sum
 }
 
-pub fn part2(input: &str) -> u32 {
+fn part2(input: &str) -> u32 {
     let mut current: i32 = 50;
     let mut sum = 0;
     for line in input.lines() {
