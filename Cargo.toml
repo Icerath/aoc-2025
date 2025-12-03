@@ -3,6 +3,8 @@ name = "aoc2025"
 version = "0.1.0"
 edition = "2024"
 
+license = "MIT OR Apache-2.0"
+
 [dependencies]
 rustc-hash = "2.1.1"
 
