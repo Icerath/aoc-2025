@@ -8,15 +8,15 @@ const EXAMPLE: &str = "987654321111111
 818181911112111";
 
 fn part1(input: &str) -> u64 {
-    input.lines().map(highest_in_bank(2)).sum()
+    input.lines().map(highest_in_bank::<2>).sum()
 }
 
 fn part2(input: &str) -> u64 {
-    input.lines().map(highest_in_bank(12)).sum()
+    input.lines().map(highest_in_bank::<12>).sum()
 }
 
-fn highest_in_bank(n: u32) -> impl Fn(&str) -> u64 {
-    move |bank| highest_n_in_bank(bank, n, &mut HashMap::default())
+fn highest_in_bank<const N: u32>(bank: &str) -> u64 {
+    highest_n_in_bank(bank, N, &mut HashMap::default())
 }
 
 fn highest_n_in_bank<'a>(
