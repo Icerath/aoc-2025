@@ -1,5 +1,3 @@
-use std::ops::Range;
-
 const EXAMPLE: &str = "3-5
 10-14
 16-20
@@ -30,33 +28,26 @@ fn part1(input: &str) -> u64 {
 fn part2(input: &str) -> u64 {
     let (fresh, _) = input.split_once("\n\n").unwrap();
 
-    let mut temp: Vec<Range<u64>> = vec![];
-    let mut prev: Vec<Range<u64>> = vec![];
-    for line in fresh.lines() {
-        let (lower, upper) = line.split_once('-').unwrap();
-        let range = lower.parse::<u64>().unwrap()..(upper.parse::<u64>().unwrap() + 1);
-        temp.push(range);
-    }
-    loop {
-        let len = temp.len();
-        for range in temp.drain(..) {
-            match prev.iter_mut().find(|prev| {
-                (range.start < prev.end && range.end >= prev.start)
-                    || (prev.start < range.end && prev.end >= range.start)
-            }) {
-                Some(prev) => {
-                    prev.start = range.start.min(prev.start);
-                    prev.end = range.end.max(prev.end);
-                }
-                None => prev.push(range.clone()),
-            }
+    let mut fresh: Vec<_> = fresh
+        .lines()
+        .map(|line| {
+            let (lower, upper) = line.split_once('-').unwrap();
+            lower.parse::<u64>().unwrap()..(upper.parse::<u64>().unwrap() + 1)
+        })
+        .collect();
+
+    fresh.sort_unstable_by_key(|range| (range.start, range.end));
+
+    let mut max_end = 0;
+    let mut sum = 0;
+
+    for range in fresh {
+        if range.end > max_end {
+            sum += (max_end.max(range.start)..range.end).count() as u64;
+            max_end = range.end;
         }
-        if prev.len() == len {
-            break;
-        }
-        std::mem::swap(&mut temp, &mut prev);
     }
-    prev.iter().map(|range| (range.start..range.end).count() as u64).sum()
+    sum
 }
 
 #[test]
